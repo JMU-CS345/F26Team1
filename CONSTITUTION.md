@@ -8,24 +8,26 @@
 
 ### Team Number
 
+1
+
 ### Team Name
 
 _
 
 ### Members
 
-| Name | GitHub username | Preferred contact | Usual availability |
-|------|-----------------|-------------------|--------------------|
-|      |                 |                   |                    |
-|      |                 |                   |                    |
-|      |                 |                   |                    |
-|      |                 |                   |                    |
+| Name | GitHub username | Usual availability |
+|------|-----------------|--------------------|
+| Zaina Olibah | zolibah-star | Everyday but Friday & Saturday |
+| Aidan Kleen | AidanKleen | |
+| Callie DuBois | CallieDuBois | |
+| Devin | dshif21 | |
 
 ### Scrum Master
 
-**Sprint 1 Scrum Master:** _
+**Sprint 1 Scrum Master:** Zaina Olibah
 
-**Does the role rotate?** *(e.g., rotates each sprint in the order listed above; or one person for the whole project)*
+**Does the role rotate?** Rotates each sprint in the order listed in the members table. Zaina has Sprint 1, then Aidan, Callie, Devin, and back to Zaina
 
 _
 
@@ -37,13 +39,13 @@ _
 
 ### Other Responsibilities
 
-Who is responsible for maintaining the project board / backlog in good order? *(Scrum Master?)*
+Who is responsible for maintaining the project board / backlog in good order? The current sprint's Scrum Master.
 
-Who is responsible for deploying the main branch to production to update GitHub pages?
+Who is responsible for deploying the main branch to production to update GitHub pages? The current sprint's Scrum Master, right after the sprint review.
 
 ### Decision Making
 
-*(How do we decide things: consensus, majority vote, Scrum Master decides? What happens if we are deadlocked?)*
+Try for consensus first. If that fails, majority vote. If the vote is 2 to 2, the current Scrum Master decides.
 
 _
 
@@ -90,7 +92,7 @@ _
 - [ ] merged to `main`
 - [ ] works in the deployed build
 - [ ] the issue is closed
-- [ ]
+- [ ] Any new model code has at least one Jasmine spec
 
 ### Estimation
 
@@ -102,7 +104,7 @@ _
 
 ### Backlog and Board
 
-**Where the backlog lives:** *(e.g., GitHub Projects board, link here)*
+**Where the backlog lives:** GitHub Issues on the F26Team1 repo. Project board link to be added.
 
 **Board columns:** *(e.g., To Do → In Progress → In Review → Done)*
 
@@ -114,13 +116,13 @@ _
 
 ### Primary Channel
 
-**Channel:** *(Discord, Slack, GroupMe, ...)*
+**Channel:** iMessage
 
-**Expected response time:** *(e.g., within 12 hours on weekdays)*
+**Expected response time:** Within 12 hours on weekdays
 
 ### What Goes Where
 
-*(What is discussed in the chat channel vs. in GitHub issues vs. in PR comments?)*
+Chat is for scheduling, quick questions and heads-ups. GitHub Issues are for anything about a story, including questions about what it means. PR comments are for anything about the code itself.
 
 _
 
@@ -142,9 +144,9 @@ _
 
 ### Branch Naming
 
-**Format:** *(e.g., `type/issue-short-description`)*
+**Format:** type/issue-short-description
 
-**Allowed types:** *(e.g., `feature`, `fix`, `docs`, `refactor`, `test`, `chore`)*
+**Allowed types:** `feature`, `fix`, `docs`, `test`, `chore`
 
 **Examples:**
 
@@ -153,30 +155,30 @@ _
 
 ### Branch Protection on `main`
 
-- [ ] No direct pushes to `main`
-- [ ] Required approvals before merge: _
-- [ ] CI must pass before merge
-- [ ] Same protection on `production`
+- [x] No direct pushes to `main`
+- [x] Required approvals before merge: _
+- [x] CI must pass before merge
+- [x] Same protection on `production`
 
 ### Commit Messages
 
-*(Format and style, e.g., imperative mood: "Add rune puzzle validation". Do we follow Conventional Commits?)*
+Imperative mood, like Add player movement or Fix door collision. First line under 50 characters. No Conventional Commits prefixes
 
 _
 
 ### Pull Requests
 
-**Maximum size:** *(e.g., aim for under 300 changed lines)*
+**Maximum size:** Aim for under 300 changed lines.
 
-**Description template:** *(e.g., What / Why / How to test / Screenshot)*
+**Description template:** What changed, Why, How to test. Add a screenshot for anything visual.
 
-**Linking issues:** *(e.g., every PR includes `Closes #N`)*
+**Linking issues:** Every PR description includes Closes #N so the issue closes on merge.
 
 _
 
 ### Code Review
 
-**Review turnaround:** *(e.g., within 24 hours of being requested)*
+**Review turnaround:** Within 24 hours of being requested.
 
 **Who reviews what:** *(e.g., any teammate; or a rotating assignment)*
 
@@ -184,11 +186,11 @@ _
 
 ### Merging
 
-**Merge style:** *(merge commit, squash and merge, or rebase and merge)*
+**Merge style:** Squash and merge, so main has one commit per story.
 
-**Who merges:** *(the author after approval, or the reviewer)*
+**Who merges:** The author, after approval and a green Tests check.
 
-**After merge:** *(e.g., delete the branch)*
+**After merge:** Delete the branch
 
 _
 
@@ -200,21 +202,21 @@ _
 
 | Kind | Convention | Example |
 |------|------------|---------|
-| Variables and functions | | |
-| Classes | | |
-| Constants | | |
-| Files | | |
-| Test files | | |
+| Variables and functions |camelCase|playerHealth|
+| Classes |PascalCase|Player|
+| Constants |UPPER_SNAKE_CASE|MAX_HEALTH|
+| Files |lowercase w/ hyphens|player-stats|
+| Test files |same name as the file under test w/ .spec.js|player-stats.spec.js|
 
 ### Formatting
 
-**Indentation:** *(2 spaces, 4 spaces, tabs)*
+**Indentation:2 spaces
 
-**Semicolons:** *(always / never)*
+**Semicolons:** always
 
-**Quotes:** *(single / double)*
+**Quotes:** double
 
-**Maximum line length:** _
+**Maximum line length:100
 
 **Tools:** *(e.g., Prettier and ESLint, with config files committed to the repo)*
 
@@ -225,32 +227,33 @@ _
 *(Where does each kind of file live?)*
 
 ```
-src/
-  model/        (e.g., game logic, no p5 drawing calls)
-  view/         (e.g., drawing code)
-  controller/   (e.g., input handling)
-assets/
-spec/
+index.html          (entry point, loads p5 and src/)
+SpecRunner.html     (runs the Jasmine specs, must stay at top level)
+p5.js, p5.min.js    (library, do not edit)
+src/                (all game code)
+test/               (Jasmine specs, *.spec.js)
+scrum/              (templates, planning, review, retrospective reports)
+.github/workflows/  (CI config)
 ```
 
 ### Architecture Rules
 
 *(e.g., game logic never calls p5 drawing functions directly, so it can be unit tested)*
 
--
--
+-Drawing lives in src/view
+-Input handling lives in src/controller.
 
 ### Comments and Documentation
 
-*(When are comments or JSDoc required?)*
+JSDoc on every class and every function in src/model. Elsewhere, comment anything that is not obvious from the name.
 
 _
 
 ### Assets
 
-**File naming:** *(e.g., all lowercase, hyphens, no spaces)*
+**File naming:** all lowercase, hyphens, no spaces
 
-**Licensing and attribution:** *(Where do we record the source and license of art, sound, and fonts we did not make?)*
+**Licensing and attribution:** A file at assets/CREDITS.md listing the source and license of anything the team did not make.
 
 _
 
@@ -260,23 +263,21 @@ _
 
 **Test framework:** Jasmine
 
-**Where tests live:** _
+**Where tests live:** `test/`
 
-**What must have tests:** *(e.g., all model code; every bug fix gets a test that reproduces it; combat and puzzle rules)*
+**What must have tests:** All model code; every bug fix gets a test that reproduces it; combat and puzzle rules
 
 _
 
 **Coverage expectations:** 90+%
 
-**Continuous integration:** *(What does GitHub Actions run on each PR?)*
+**Continuous integration:** GitHub Actions runs every spec in SpecRunner.html in headless Chrome on pull requests into `main` and `production`, and on pushes to `production`.
+
+**Rule for failing CI:** Nothing merges while the Tests check is red. Whoever broke it fixes it before starting anything else.
 
 _
 
-**Rule for failing CI:** *(e.g., nothing merges while CI is red)*
-
-_
-
-**Manual playtesting:** *(Who plays the build before each sprint review, and how are bugs reported?)*
+**Manual playtesting:** Everyone plays the deployed build the day before the sprint review and files anything they find as an issue with a bug label.
 
 _
 
@@ -286,27 +287,27 @@ _
 
 **Where the game is deployed:** GitHub Pages, URL here
 
-**What triggers a deploy:** *(e.g., a release PR from `main` into `production`, opened by the Scrum Master after each sprint review)*
+**What triggers a deploy:** A merge into `production`.
 
-**Who checks the deployed build, and when:** _
+**Who checks the deployed build, and when:** The Scrum Master right after each merge into production, plus everyone during playtesting before the review.
 
 ---
 
 ## 8. AI Tool Usage
 
-**Allowed tools:** _
+**Allowed tools:** Any
 
-**Allowed uses:** *(e.g., code generation, tests, documentation, review)*
-
-_
-
-**Not allowed:** _
-
-**Disclosure:** *(e.g., note AI assistance in the PR description)*
+**Allowed uses:** ethical use
 
 _
 
-**Responsibility:** *(e.g., whoever submits AI-generated code must understand it and is accountable for it)*
+**Not allowed:** Submitting code you cannot explain line by line. 
+
+**Disclosure:** A one-line note in the PR description when AI wrote most of the change. Small help like autocomplete does not need a note.
+
+_
+
+**Responsibility:** Whoever opens the PR owns everything in it, AI-written or not, and has to be able to defend it in a review or to Riley.
 
 _
 
@@ -316,34 +317,33 @@ _
 
 ### Expected Effort
 
-*(Hours per person per week.)*
+5 hours per person per week outside of class, more in the last two sprints.
 
 _
 
 ### Fair Contribution
 
-*(What counts as contributing, and how is it tracked? e.g., PRs merged, reviews done, story points completed.)*
-
+PRs merged, reviews done and story points completed, all visible on GitHub. The sprint review report records points per person each sprint.
 _
 
 ### Conflict Resolution
 
 *(What steps do we follow when there is a disagreement or a problem with a teammate?)*
 
-1. *(e.g., talk to the person directly)*
-2. *(e.g., raise it at the retrospective)*
-3. *(e.g., Scrum Master mediates)*
-4. *(e.g., escalate to the instructor)*
+1. talk to the person directly
+2. raise it at the retrospective
+3. Scrum Master mediates
+4. escalate to the instructor
 
 ### Missed Commitments
 
-*(What happens when a member repeatedly misses commitments?)*
+First time, it comes up at the next standup and the story is reassigned if needed. Second time, it becomes a retro action item with that person as owner. Third time, the team talks to Riley.
 
 _
 
 ### Amending This Constitution
 
-*(How can this document be changed? e.g., proposed by PR, approved by team vote at a retrospective.)*
+Propose the change as a PR to CONSTITUTION.md. It needs 3 of 4 approvals and is normally discussed at a retrospective first.
 
 _
 
@@ -355,7 +355,7 @@ _
 
 | GitHub name | Signature (type your name) | Date |
 |------|----------------------------|------|
-|      |                            |      |
+|zolibah-star|Zaina Olibah|10-26-2026|
 |      |                            |      |
 |      |                            |      |
 |      |                            |      |
