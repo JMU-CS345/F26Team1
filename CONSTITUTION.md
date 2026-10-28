@@ -351,6 +351,6 @@ _
 | GitHub name | Signature (type your name) | Date |
 |------|----------------------------|------|
 |zolibah-star|Zaina Olibah|10-26-2026|
-|      |                            |      |
+|AidanKleen| Aidan Kleen  |10-28-2026|
 |      |                            |      |
 |      |                            |      |
