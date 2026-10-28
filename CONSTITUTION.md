@@ -20,7 +20,7 @@ Jelly Biscuit
 |------|-----------------|--------------------|
 | Zaina Olibah | zolibah-star | Everyday but Friday & Saturday |
 | Aidan Kleen | AidanKleen | | Afternoon everyday
-| Callie DuBois | CallieDuBois | |
+| Callie DuBois | CallieDuBois | | Everyday but Tuesday |
 | Devin | dshif21 |Everyday but Friday & Saturday |
 
 ### Scrum Master
@@ -353,4 +353,4 @@ _
 |zolibah-star|Zaina Olibah|10-26-2026|
 |AidanKleen|Aidan Kleen|10-28-2026|
 |dshif21|Devin Shifflett|10-28-2026|
-|      |                            |      |
+|CallieDuBois|Callie DuBois|10-28-2026|
