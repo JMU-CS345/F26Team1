@@ -4,9 +4,16 @@ let titleOpacity = 0;
 let titlePhase = 0;
 let titleTimer = 0;
 
+//Loads the mage pictures before setup runs
+function preload() {
+  loadMageImages();
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
+  //Keeps the pixel art sharp when it is scaled up
+  noSmooth();
 }
 
 function draw() {
@@ -21,7 +28,10 @@ function draw() {
     drawStartButton();
   }
 
-  // "game" is just a black screen for now
+  else if (screen === "game") {
+    //For now the player just stands in the middle of the screen
+    drawPlayer(width / 2, height / 2, "fire");
+  }
 }
 
 function drawIntro() {
