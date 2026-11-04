@@ -3,6 +3,9 @@ let screen = "title";
 let titleOpacity = 0;
 let titlePhase = 0;
 let titleTimer = 0;
+let x = 0;
+let y = 0;    
+let wizard = loadImage("testBiscuit.jpg");
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -19,6 +22,10 @@ function draw() {
   else if (screen === "start") {
     drawGameTitle();
     drawStartButton();
+  }
+
+  else if (screen === "game") {
+    drawFreeMovement();
   }
 
   // "game" is just a black screen for now
@@ -133,4 +140,9 @@ function mouseClicked() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+function drawFreeMovement() {
+  updateMovement(x, y);
+  image(wizard, x, y, 100, 200);
 }
