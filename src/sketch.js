@@ -3,6 +3,8 @@ let screen = "title";
 let titleOpacity = 0;
 let titlePhase = 0;
 let titleTimer = 0;
+let x = 0;
+let y = 0;    
 
 //Loads the mage pictures before setup runs
 function preload() {
@@ -30,7 +32,12 @@ function draw() {
 
   else if (screen === "game") {
     //For now the player just stands in the middle of the screen
-    drawPlayer(width / 2, height / 2, "fire");
+    let speed = 20;
+    if (keyIsDown(87)) y -= speed;
+    if (keyIsDown(65)) x -= speed;
+    if (keyIsDown(83)) y += speed;
+    if (keyIsDown(68)) x += speed;
+    drawPlayer((width / 2) + x, (height / 2) + y, "fire");
   }
 }
 
@@ -143,4 +150,9 @@ function mouseClicked() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+function drawFreeMovement() {
+  updateMovement(x, y);
+  image(wizard, x, y, 100, 200);
 }
