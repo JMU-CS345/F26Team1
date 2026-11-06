@@ -7,9 +7,16 @@ let x = 0;
 let y = 0;    
 let wizard = loadImage("testBiscuit.jpg");
 
+//Loads the mage pictures before setup runs
+function preload() {
+  loadMageImages();
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
+  //Keeps the pixel art sharp when it is scaled up
+  noSmooth();
 }
 
 function draw() {
@@ -25,10 +32,9 @@ function draw() {
   }
 
   else if (screen === "game") {
-    drawFreeMovement();
+    //For now the player just stands in the middle of the screen
+    drawPlayer(width / 2, height / 2, "fire");
   }
-
-  // "game" is just a black screen for now
 }
 
 function drawIntro() {
