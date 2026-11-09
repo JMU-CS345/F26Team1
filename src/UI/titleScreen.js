@@ -28,15 +28,15 @@ function drawIntro() {
     }
   }
 
-  // Background does not fade
+  // Background stays visible
   drawJellyBackground();
 
-  // These decorations fade together
+  // Text, biscuit, and decorations fade
   drawIntroText();
   drawIntroBiscuit();
 }
 
-// Draws the new PNG background
+// Draws the Jelly Biscuit background
 function drawJellyBackground() {
   let scale = max(width / jellyBackground.width,
                   height / jellyBackground.height);
@@ -50,7 +50,7 @@ function drawJellyBackground() {
   imageMode(CORNER);
 }
 
-// Draws the studio name and gold decorations
+// Draws the studio name and decorations
 function drawIntroText() {
   let textY = height * 0.38;
   let fontSize = min(width * 0.075, height * 0.12, 85);
@@ -80,7 +80,7 @@ function drawIntroText() {
   rect(width / 2 - lineWidth / 2,
        lineY, lineWidth, lineThickness);
 
-  // Small gold diamond in the center
+  // Center diamond
   push();
   translate(width / 2, lineY + lineThickness / 2);
   rotate(PI / 4);
@@ -89,7 +89,7 @@ function drawIntroText() {
        lineThickness * 3);
   pop();
 
-  // Small gold diamonds beside the title
+  // Diamonds beside the title
   let diamondSize = min(width, height) * 0.015;
 
   push();
@@ -109,7 +109,7 @@ function drawIntroText() {
   rectMode(CORNER);
 }
 
-// Draws the jelly biscuit PNG without stretching it
+// Draws the biscuit without stretching it
 function drawIntroBiscuit() {
   let maxWidth = width * 0.28;
   let maxHeight = height * 0.32;
@@ -131,7 +131,7 @@ function drawIntroBiscuit() {
   pop();
 }
 
-// Draws the Mage Quest background without stretching
+// Draws the Mage Quest background
 function drawTitleBackground() {
   let scale = max(width / backgroundImage.width,
                   height / backgroundImage.height);
@@ -145,7 +145,7 @@ function drawTitleBackground() {
   imageMode(CORNER);
 }
 
-// Draws the MAGE QUEST logo
+// Draws the Mage Quest logo
 function drawGameTitle() {
   let imageWidth = width * 0.65;
   let imageHeight = imageWidth *
@@ -225,13 +225,27 @@ function drawStartButton() {
   rectMode(CENTER);
 }
 
-// Checks if the mouse is over the Start button
+// Checks whether the mouse is over Start
 function mouseOverButton() {
-  let buttonWidth = width * 0.28;
-  let buttonHeight = height * 0.12;
+  return isInsideStartButton(mouseX, mouseY, width, height);
+}
 
-  return mouseX > width / 2 - buttonWidth / 2 &&
-         mouseX < width / 2 + buttonWidth / 2 &&
-         mouseY > height * 0.75 - buttonHeight / 2 &&
-         mouseY < height * 0.75 + buttonHeight / 2;
+// Checks a position without needing p5.js
+function isInsideStartButton(x, y, w, h) {
+  let buttonWidth = w * 0.28;
+  let buttonHeight = h * 0.12;
+
+  return x > w / 2 - buttonWidth / 2 &&
+         x < w / 2 + buttonWidth / 2 &&
+         y > h * 0.75 - buttonHeight / 2 &&
+         y < h * 0.75 + buttonHeight / 2;
+}
+
+// Determines which screen should come next
+function getNextScreen(currentScreen, startClicked) {
+  if (currentScreen === "start" && startClicked) {
+    return "mageSelect";
+  }
+
+  return currentScreen;
 }

@@ -12,7 +12,7 @@ let backgroundImage;
 let jellyImage;
 let jellyBackground;
 
-// Loads the mage pictures before setup runs
+// Loads images before setup runs
 function preload() {
   loadMageSelectImages();
   loadMageImages();
@@ -50,20 +50,23 @@ function draw() {
   else if (screen === "game") {
     let speed = 20;
 
-    if (y > -(height / 2) && keyIsDown(87)) y -= speed;
-    if (x > -(width / 2) && keyIsDown(65)) x -= speed;
-    if (y < height / 2 && keyIsDown(83)) y += speed;
-    if (x < width / 2 && keyIsDown(68)) x += speed;
+    if (keyIsDown(87)) y -= speed;
+    if (keyIsDown(65)) x -= speed;
+    if (keyIsDown(83)) y += speed;
+    if (keyIsDown(68)) x += speed;
 
-    drawPlayer((width / 2) + x, (height / 2) + y, playerMage);
+    drawPlayer((width / 2) + x, (height / 2) + y,
+               playerMage);
   }
 }
 
 function mouseClicked() {
   if (screen === "start" && mouseOverButton()) {
-    screen = "mageSelect";
+    screen = getNextScreen(screen, true);
     console.log("Game started!");
-  } else if (screen === "mageSelect") {
+  }
+
+  else if (screen === "mageSelect") {
     if (mouseOverFireSelectButton()) {
       mageSelectButtonPressed("fire");
     } else if (mouseOverIceSelectButton()) {
@@ -74,7 +77,7 @@ function mouseClicked() {
   }
 }
 
-// Called by the mage select screen
+// Called by the mage selection screen
 function mageSelectButtonPressed(mage) {
   playerMage = mage;
   screen = "game";
