@@ -8,7 +8,6 @@ let y = 0;
 
 //Loads the mage pictures before setup runs
 function preload() {
-  loadMageSelectImages();
   loadMageImages();
 }
 
@@ -31,19 +30,14 @@ function draw() {
     drawStartButton();
   }
 
-  else if (screen === "mageSelect") {
-    createMageSelectBackGround();
-    createMageSelect();
-  }
-
   else if (screen === "game") {
     //For now the player just stands in the middle of the screen
     let speed = 20;
-    if (keyIsDown(87)) y -= speed;
-    if (keyIsDown(65)) x -= speed;
-    if (keyIsDown(83)) y += speed;
-    if (keyIsDown(68)) x += speed;
-    drawPlayer((width / 2) + x, (height / 2) + y, playerMage);
+    if (y > 0 && keyIsDown(87)) y -= speed;
+    if (x > 0 && keyIsDown(65)) x -= speed;
+    if (y < height && keyIsDown(83)) y += speed;
+    if (x < width && keyIsDown(68)) x += speed;
+    drawPlayer((width / 2) + x, (height / 2) + y, "fire");
   }
 }
 
@@ -149,24 +143,9 @@ function mouseOverButton() {
 
 function mouseClicked() {
   if (screen === "start" && mouseOverButton()) {
-    screen = "mageSelect";
+    screen = "game";
     console.log("Game started!");
-  } else if (screen === "mageSelect") {
-    if (mouseOverFireSelectButton()) {
-      mageSelectButtonPressed("fire");
-    } else if (mouseOverIceSelectButton()) {
-      mageSelectButtonPressed("ice");
-    } else if (mouseOverMindSelectButton()) {
-      mageSelectButtonPressed("mind");
-    }
   }
-}
-
-// Called by the mage select screen. 
-// Sets the player's mage type based on position of the mouse and then changes the screen to game
-function mageSelectButtonPressed(mage) {
-  playerMage = mage;
-  screen = "game";
 }
 
 function windowResized() {
