@@ -102,19 +102,21 @@ The deployed build goes from the Jelly Biscuit intro to the title screen, the St
 
 ## 7. Stakeholder Feedback
 
-_
+-add descriptions for the mage type 
+-move on to dungeons and map (environment)
+-very good so far
 
 ---
 
 ## 8. Backlog Changes
 
-**New stories added:** #31 Walking animation for the mage. Zaina added it during the sprint so the mage can have walk frames instead of a still picture.
+**New stories added:** #31 Walking animation for the mage, added during the sprint. Riley also asked for descriptions of each mage type on the select screen, which we are adding as a new story.
 
-**Priorities changed:** None. #17 is still the top item for Sprint 2.
+**Priorities changed:** Riley wants us to move on to dungeons and the map next, so the environment stories move to the top of the backlog for Sprint 2.
 
 **Stories removed:** None
 
-**If no change was needed, why not?** Riley's feedback was about the build we showed, not about what we build next, so the backlog order from planning still holds.
+**If no change was needed, why not?** n/a, the backlog changed.
 
 ---
 
@@ -136,6 +138,6 @@ _
 - [x] Every committed item marked Done or Not Done
 - [x] Every item marked Done has all its acceptance criteria checked in section 5
 - [x] Metrics filled in, with the committed/completed difference explained
-- [ ] Stakeholder feedback recorded (Sprint 4: n/a)
+- [x] Stakeholder feedback recorded (Sprint 4: n/a)
 - [x] Backlog updated, or the reason no change was needed explained (Sprint 4: n/a)
 - [x] Report committed to `scrum/review/` via pull request by 11:59 p.m. on the day of the review
