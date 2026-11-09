@@ -33,10 +33,10 @@ function draw() {
   else if (screen === "game") {
     //For now the player just stands in the middle of the screen
     let speed = 20;
-    if (y > 0 && keyIsDown(87)) y -= speed;
-    if (x > 0 && keyIsDown(65)) x -= speed;
-    if (y < height && keyIsDown(83)) y += speed;
-    if (x < width && keyIsDown(68)) x += speed;
+    if (y > -(height / 2) && keyIsDown(87)) y -= speed;
+    if (x > -(width / 2) && keyIsDown(65)) x -= speed;
+    if (y < height / 2 && keyIsDown(83)) y += speed;
+    if (x < width / 2 && keyIsDown(68)) x += speed;
     drawPlayer((width / 2) + x, (height / 2) + y, "fire");
   }
 }
