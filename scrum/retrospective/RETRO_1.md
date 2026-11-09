@@ -85,7 +85,7 @@
 
 **Proposed change:** Add a release rule to the Merging section of CONSTITUTION.md. The Scrum Master merges `main` into `production` with a merge commit at the end of each week of the sprint, not only after the review. Also fill in the blanks the sprint showed we were missing, the GitHub Pages URL in Section 7, the number of required approvals and the board columns and link in Sections 2 and 4.
 
-**Pull request:** https://github.com/JMU-CS345/F26Team1/pull/39
+**Pull request:** https://github.com/JMU-CS345/F26Team1/pull/40
 
 **If no change is needed, why not?** n/a
 

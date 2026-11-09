@@ -18,7 +18,7 @@
 
 **Deployed build reviewed:** https://jmu-cs345.github.io/F26Team1/
 
-**Release PR into `production`:** https://github.com/JMU-CS345/F26Team1/pull/38
+**Release PR into `production`:** https://github.com/JMU-CS345/F26Team1/pull/39
 
 ---
 
