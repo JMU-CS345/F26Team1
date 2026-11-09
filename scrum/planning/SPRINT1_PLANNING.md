@@ -8,7 +8,7 @@
 
 **Scrum Master:** Zaina Olibah
 
-**Attendees:** Callie, Devin, Aidan
+**Attendees:** Callie, Devin, Aidan, Zaina
 
 **Absent:** none
 
