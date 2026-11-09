@@ -50,10 +50,10 @@ function draw() {
   else if (screen === "game") {
     let speed = 20;
 
-    if (keyIsDown(87)) y -= speed;
-    if (keyIsDown(65)) x -= speed;
-    if (keyIsDown(83)) y += speed;
-    if (keyIsDown(68)) x += speed;
+    if (y > -(height / 2) && keyIsDown(87)) y -= speed;
+    if (x > -(width / 2) && keyIsDown(65)) x -= speed;
+    if (y < height / 2 && keyIsDown(83)) y += speed;
+    if (x < width / 2 && keyIsDown(68)) x += speed;
 
     drawPlayer((width / 2) + x, (height / 2) + y, playerMage);
   }
