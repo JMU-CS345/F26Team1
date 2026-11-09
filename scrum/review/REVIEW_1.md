@@ -1,6 +1,6 @@
 # Sprint Review Report: Sprint 1
 
-**Demo commit:** 5f8efce464bc4e3b10991c25ba3fb4121daeecf1
+**Demo commit:** 179c9ed53f4cfb96dea93b42d2ab3c485e192deb
 
 ---
 
@@ -18,7 +18,7 @@
 
 **Deployed build reviewed:** https://jmu-cs345.github.io/F26Team1/
 
-**Release PR into `production`:** https://github.com/JMU-CS345/F26Team1/pull/35
+**Release PR into `production`:** https://github.com/JMU-CS345/F26Team1/pull/38
 
 ---
 
@@ -88,7 +88,7 @@ The deployed build goes from the Jelly Biscuit intro to the title screen, the St
 
 - [x] Given the game is running, when I look at the screen, then I can see an icon that represents my character.
 - [x] Given the icon is on screen, when I press a movement key, then the icon moves in that direction.
-- [ ] Given the icon is at the edge of the screen, when I keep pressing toward the edge, then the icon stays on screen.
+- [x] Given the icon is at the edge of the screen, when I keep pressing toward the edge, then the icon stays on screen.
 
 ---
 
@@ -124,7 +124,7 @@ _
 
 **Number of specs:** 6
 
-**Known bugs in the deployed build:** The mage can move off the edge of the screen since there is no bounds check yet. Movement is 20 pixels per frame so it feels fast. `sketch.js` has a leftover `drawFreeMovement` function that is never called.
+**Known bugs in the deployed build:** Movement is 20 pixels per frame so it feels fast. The screen bounds stop the center of the mage at the edge, so about half the sprite can still hang past the edge. `sketch.js` has a leftover `drawFreeMovement` function that is never called.
 
 ---
 
