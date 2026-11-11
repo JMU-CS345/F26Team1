@@ -1,6 +1,6 @@
 # Sprint Review Report: Sprint 1
 
-**Demo commit:** 5f8efce464bc4e3b10991c25ba3fb4121daeecf1
+**Demo commit:** 179c9ed53f4cfb96dea93b42d2ab3c485e192deb
 
 ---
 
@@ -18,7 +18,7 @@
 
 **Deployed build reviewed:** https://jmu-cs345.github.io/F26Team1/
 
-**Release PR into `production`:** https://github.com/JMU-CS345/F26Team1/pull/35
+**Release PR into `production`:** https://github.com/JMU-CS345/F26Team1/pull/39
 
 ---
 
@@ -88,7 +88,7 @@ The deployed build goes from the Jelly Biscuit intro to the title screen, the St
 
 - [x] Given the game is running, when I look at the screen, then I can see an icon that represents my character.
 - [x] Given the icon is on screen, when I press a movement key, then the icon moves in that direction.
-- [ ] Given the icon is at the edge of the screen, when I keep pressing toward the edge, then the icon stays on screen.
+- [x] Given the icon is at the edge of the screen, when I keep pressing toward the edge, then the icon stays on screen.
 
 ---
 
@@ -102,19 +102,21 @@ The deployed build goes from the Jelly Biscuit intro to the title screen, the St
 
 ## 7. Stakeholder Feedback
 
-_
+-add descriptions for the mage type 
+-move on to dungeons and map (environment)
+-very good so far
 
 ---
 
 ## 8. Backlog Changes
 
-**New stories added:** #31 Walking animation for the mage. Zaina added it during the sprint so the mage can have walk frames instead of a still picture.
+**New stories added:** #31 Walking animation for the mage, added during the sprint. Riley also asked for descriptions of each mage type on the select screen, which we are adding as a new story.
 
-**Priorities changed:** None. #17 is still the top item for Sprint 2.
+**Priorities changed:** Riley wants us to move on to dungeons and the map next, so the environment stories move to the top of the backlog for Sprint 2.
 
 **Stories removed:** None
 
-**If no change was needed, why not?** Riley's feedback was about the build we showed, not about what we build next, so the backlog order from planning still holds.
+**If no change was needed, why not?** n/a, the backlog changed.
 
 ---
 
@@ -124,7 +126,7 @@ _
 
 **Number of specs:** 6
 
-**Known bugs in the deployed build:** The mage can move off the edge of the screen since there is no bounds check yet. Movement is 20 pixels per frame so it feels fast. `sketch.js` has a leftover `drawFreeMovement` function that is never called.
+**Known bugs in the deployed build:** Movement is 20 pixels per frame so it feels fast. The screen bounds stop the center of the mage at the edge, so about half the sprite can still hang past the edge. `sketch.js` has a leftover `drawFreeMovement` function that is never called.
 
 ---
 
@@ -136,6 +138,6 @@ _
 - [x] Every committed item marked Done or Not Done
 - [x] Every item marked Done has all its acceptance criteria checked in section 5
 - [x] Metrics filled in, with the committed/completed difference explained
-- [ ] Stakeholder feedback recorded (Sprint 4: n/a)
+- [x] Stakeholder feedback recorded (Sprint 4: n/a)
 - [x] Backlog updated, or the reason no change was needed explained (Sprint 4: n/a)
 - [x] Report committed to `scrum/review/` via pull request by 11:59 p.m. on the day of the review

@@ -48,7 +48,7 @@
 - Issue #1 was still open on review day even though PR #33 that finished it was merged, so the board did not match the repo.
 - `main` was not merged into `production` until review day, so the GitHub Pages build showed the old gray canvas for the whole sprint.
 - We only have 6 Jasmine specs and they all test `mage-types.js`. The title screen, movement and mage select have no specs.
-- The edge check in #7's third acceptance criterion was missed when PR #32 was reviewed, so the mage could walk off the screen in the build we demoed.
+- The edge check in #7's third acceptance criterion was missed when PR #32 was reviewed. Aidan fixed it on review day in #37, but his first try (#35) was opened from a branch 7 commits behind `main` and would have removed the mage select screen, so it had to be closed and redone.
 
 ### What puzzled us or what we want to try
 
@@ -65,9 +65,9 @@
 
 **Why?** The PRs did not reference their issues and no one owned the release step.
 
-**Why?** CONSTITUTION.md says how to branch and merge into `main` but does not say when to release to `production` or how an issue gets closed.
+**Why?** CONSTITUTION.md only says to deploy to `production` right after the sprint review, so nothing told us to release during the sprint, and nothing says to check that an issue closed when its PR merged.
 
-**Root cause:** Our workflow rules were written before we had done a sprint, so they stop at merging into `main`.
+**Root cause:** Our workflow rules were written before we had done a sprint, so they stop at merging into `main` and leave the release and the board until review day.
 
 ---
 
@@ -75,7 +75,7 @@
 
 | Action item | Owner | How we will know it worked |
 |-------------|-------|----------------------------|
-| Write "Closes #N" in every story PR description | Everyone, Aidan checks as Scrum Master | Every story PR merged in Sprint 2 closes its issue on its own |
+| Put "Closes #N" in every story PR description like the constitution already says | Everyone, Aidan checks as Scrum Master | Every story PR merged in Sprint 2 closes its issue on its own |
 | Merge `main` into `production` at the end of each week | Scrum Master | Pages matches `main` on the Friday of each week of Sprint 2 |
 | Add at least one spec for any new file that has game logic | Story owner | Spec count is higher than 6 at the Sprint 2 review |
 
@@ -83,9 +83,9 @@
 
 ## 7. Constitution Changes
 
-**Proposed change:** Add two rules to the Workflow section of CONSTITUTION.md. Every story PR description includes "Closes #N" for the issue it finishes, and the Scrum Master merges `main` into `production` at the end of each week of the sprint. Also fill in the GitHub Pages URL in Section 7, which still says "URL here".
+**Proposed change:** Add a release rule to the Merging section of CONSTITUTION.md. The Scrum Master merges `main` into `production` with a merge commit at the end of each week of the sprint, not only after the review. Also fill in the blanks the sprint showed we were missing, the GitHub Pages URL in Section 7, the number of required approvals and the board columns and link in Sections 2 and 4.
 
-**Pull request:** https://github.com/JMU-CS345/F26Team1/pull/36
+**Pull request:** https://github.com/JMU-CS345/F26Team1/pull/40
 
 **If no change is needed, why not?** n/a
 
