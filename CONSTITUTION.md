@@ -12,16 +12,16 @@
 
 ### Team Name
 
-_
+Jelly Biscuit
 
 ### Members
 
 | Name | GitHub username | Usual availability |
 |------|-----------------|--------------------|
 | Zaina Olibah | zolibah-star | Everyday but Friday & Saturday |
-| Aidan Kleen | AidanKleen | |
-| Callie DuBois | CallieDuBois | |
-| Devin | dshif21 | |
+| Aidan Kleen | AidanKleen | | Afternoon everyday
+| Callie DuBois | CallieDuBois | | Everyday but Tuesday |
+| Devin | dshif21 |Everyday but Friday & Saturday |
 
 ### Scrum Master
 
@@ -33,7 +33,7 @@ _
 
 ### Product Owner
 
-*Choose one team member who will interact with the instructor (stakeholder) to clarify and prioritize stories, and to collect new ones.*
+Aidan Kleen
 
 _
 
@@ -79,26 +79,26 @@ _
 
 *A backlog item may be pulled into a sprint only when:*
 
-- [ ] it is written as a user story
-- [ ] it has acceptance criteria
-- [ ] it has an estimate
+- [x] it is written as a user story
+- [x] it has acceptance criteria
+- [x] it has an estimate
 
 ### Definition of Done
 
 *An item is done only when:*
 
-- [ ] code is reviewed and approved by at least one teammate
-- [ ] all tests pass in CI
-- [ ] merged to `main`
-- [ ] works in the deployed build
-- [ ] the issue is closed
-- [ ] Any new model code has at least one Jasmine spec
+- [x] code is reviewed and approved by at least one teammate
+- [x] all tests pass in CI
+- [x] merged to `main`
+- [x] works in the deployed build
+- [x] the issue is closed
+- [x] Any new model code has at least one Jasmine spec
 
 ### Estimation
 
-**Method:** *(story points, t-shirt sizes, hours)*
+**Method:** story points (relative - effort, complexity, uncertainty) and t-shirt sizes (for things we dont know very well)
 
-**Scale:** *(e.g., 1, 2, 3, 5, 8, 13)*
+**Scale:** Fibonacci: 1, 2, 3, 5, 8, 13
 
 _
 
@@ -129,14 +129,14 @@ _
 ### Reporting Blockers or Falling Behind
 
 *(How and how early does a member tell the team they are stuck or behind?)*
-
+asap - on imessage
 _
 
 ### Absences
 
 *(How much notice is required? How is the absent member's work covered?)*
+Attempt 24 hours, person with the least amount of work. Covering is last resort
 
-_
 
 ---
 
@@ -147,11 +147,6 @@ _
 **Format:** type/issue-short-description
 
 **Allowed types:** `feature`, `fix`, `docs`, `test`, `chore`
-
-**Examples:**
-
--
--
 
 ### Branch Protection on `main`
 
@@ -180,7 +175,7 @@ _
 
 **Review turnaround:** Within 24 hours of being requested.
 
-**Who reviews what:** *(e.g., any teammate; or a rotating assignment)*
+**Who reviews what:** rotating assignment - starting with Callie
 
 _
 
@@ -356,6 +351,6 @@ _
 | GitHub name | Signature (type your name) | Date |
 |------|----------------------------|------|
 |zolibah-star|Zaina Olibah|10-26-2026|
-|      |                            |      |
-|      |                            |      |
-|      |                            |      |
+|AidanKleen|Aidan Kleen|10-28-2026|
+|dshif21|Devin Shifflett|10-28-2026|
+|CallieDuBois|Callie DuBois|10-28-2026|
