@@ -3,6 +3,9 @@
 
 let mageImages = {};
 let MAGE_SCALE = 1.25;
+let frame = 0;
+let count = 0;
+let direction = "";
 
 //Loads one picture per mage type. Call this from preload() in sketch.js.
 function loadMageImages() {
@@ -23,8 +26,57 @@ function drawPlayer(x, y, mageType) {
     }
   }
 
+  charWidth = img.width / 4;
+  charHeight = img.height / 3;
+
+  //frames per second
+  playerMovementFramerate = 4;
+  
   push();
   imageMode(CENTER);
-  image(img, x, y, img.width * MAGE_SCALE, img.height * MAGE_SCALE);
+
+  // checking if the player is moving, doing frame calculations, then animating the player.
+  if (checkPlayerMovingInDirection()) {
+    count = (count + 1) % (60 / playerMovementFramerate);
+    if (count === 14) {
+      frame = (frame + 1) %4
+    }
+    if (direction === "up") {
+      image(img, x, y, charWidth * MAGE_SCALE, charHeight * MAGE_SCALE, charWidth * frame, charHeight, charWidth, charHeight);
+    } else if (direction === "left") {
+      image(img, x, y, charWidth * MAGE_SCALE, charHeight * MAGE_SCALE, charWidth * frame, 2 * charHeight, charWidth, charHeight);
+    } else if (direction === "down") {
+      image(img, x, y, charWidth * MAGE_SCALE, charHeight * MAGE_SCALE, charWidth * frame, 0, charWidth, charHeight);
+    } else {
+      scale(-1, 1);
+      image(img, -x , y, charWidth * MAGE_SCALE, charHeight * MAGE_SCALE, charWidth * frame, 2 * charHeight, charWidth, charHeight);
+    }
+  } else {
+    count = 0;
+    image(img, x, y, charWidth * MAGE_SCALE, charHeight * MAGE_SCALE, 0, 0, charWidth, charHeight);
+  }
   pop();
+}
+
+// Checks if the any of the WASD keys are currently held down, 
+// and sets direction and returns true if so. Otherwise returns false.
+function checkPlayerMovingInDirection() {
+  // W
+  if (keyIsDown(87) && !keyIsDown(83)) {
+    direction = "up";
+  } //S
+  else if (keyIsDown(83) && !keyIsDown(87)){
+    direction = "down"
+  } //A
+  else if (keyIsDown(65) && !keyIsDown(68)) {
+    direction = "left"
+  } // D
+  else if (keyIsDown(68) && !keyIsDown(65)) {
+    direction = "right"
+  }
+  else {
+    direction = "";
+    return false;
+  }
+  return true;
 }
