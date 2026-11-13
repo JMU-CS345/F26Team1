@@ -3,6 +3,8 @@ let screen = "title";
 let titleOpacity = 0;
 let titlePhase = 0;
 let titleTimer = 0;
+let x = 0;
+let y = 0;
 
 //Dungeon stuff. The player position is in tiles, not pixels,
 //so it still works when the window changes size.
@@ -24,6 +26,7 @@ let jellyBackground;
 function preload() {
   loadMageSelectImages();
   loadMageImages();
+  loadEnemyImages();
 
   titleImage = loadImage("assets/title-image.png");
   backgroundImage = loadImage("assets/background-image.png");
@@ -58,7 +61,9 @@ function draw() {
   else if (screen === "game") {
     movePlayer();
     checkDoors();
+    drawEnemyMovement();
     drawRoom(currentRoom, dungeon.theme);
+    drawRoomEnemies(currentRoom);
     drawPlayer(tileToPixelX(playerCol), tileToPixelY(playerRow), playerMage);
     drawDungeonLabel(dungeonNumber, dungeon.theme);
   }
@@ -70,18 +75,23 @@ function startDungeon() {
   currentRoom = dungeon.rooms[dungeon.startRow][dungeon.startCol];
   playerRow = MIDDLE_ROW + 0.5;
   playerCol = MIDDLE_COL + 0.5;
+  if (!currentRoom.enemies) {
+    currentRoom.enemies = spawnEnemies(currentRoom, playerRow, playerCol);
+  }
 }
 
+    drawPlayer((width / 2) + x, (height / 2) + y, playerMage);
+    // drawEnemyMovement();
 //Moves the player with WASD and stops them at walls.
 //Rows and columns are checked separately so the player slides along walls.
 function movePlayer() {
   let newRow = playerRow;
   let newCol = playerCol;
 
-  if (keyIsDown(87)) newRow -= PLAYER_SPEED;
-  if (keyIsDown(83)) newRow += PLAYER_SPEED;
-  if (keyIsDown(65)) newCol -= PLAYER_SPEED;
-  if (keyIsDown(68)) newCol += PLAYER_SPEED;
+  if (keyIsDown(87) || keyIsDown(UP_ARROW)) newRow -= PLAYER_SPEED;
+  if (keyIsDown(83) || keyIsDown(DOWN_ARROW)) newRow += PLAYER_SPEED;
+  if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) newCol -= PLAYER_SPEED;
+  if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) newCol += PLAYER_SPEED;
 
   if (canStandAt(newRow, playerCol)) playerRow = newRow;
   if (canStandAt(playerRow, newCol)) playerCol = newCol;
@@ -143,6 +153,10 @@ function goToRoom(directionName) {
     playerRow = MIDDLE_ROW + 0.5;
     playerCol = 1 + 0.5;
   }
+
+  if (!currentRoom.enemies) {
+    currentRoom.enemies = spawnEnemies(currentRoom, playerRow, playerCol);
+  }
 }
 
 function mouseClicked() {
@@ -172,3 +186,36 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
+function drawEnemyMovement() {
+  let speed = 0.015;
+  let randomness = 0.2;
+
+  for (let i = 0; i < currentRoom.enemies.length; i++) {
+    let enemy = currentRoom.enemies[i];
+    let rowDifference = playerRow - enemy.row;
+    let colDifference = playerCol - enemy.col;
+
+    rowDifference += (Math.random() - 0.5) * randomness;
+    colDifference += (Math.random() - 0.5) * randomness;
+
+    let distance = Math.sqrt(rowDifference * rowDifference + colDifference * colDifference);
+    if (distance === 0) {
+      continue;
+    }
+
+    let nextRow = enemy.row + (rowDifference / distance) * speed;
+    let nextCol = enemy.col + (colDifference / distance) * speed;
+
+    if (canStandAt(nextRow, nextCol)) {
+      enemy.row = nextRow;
+      enemy.col = nextCol;
+    } else {
+      if (canStandAt(nextRow, enemy.col)) {
+        enemy.row = nextRow;
+      }
+      if (canStandAt(enemy.row, nextCol)) {
+        enemy.col = nextCol;
+      }
+    }
+  }
+}
