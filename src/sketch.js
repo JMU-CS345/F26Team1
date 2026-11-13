@@ -88,10 +88,10 @@ function movePlayer() {
   let newRow = playerRow;
   let newCol = playerCol;
 
-  if (keyIsDown(87)) newRow -= PLAYER_SPEED;
-  if (keyIsDown(83)) newRow += PLAYER_SPEED;
-  if (keyIsDown(65)) newCol -= PLAYER_SPEED;
-  if (keyIsDown(68)) newCol += PLAYER_SPEED;
+  if (keyIsDown(87) || keyIsDown(UP_ARROW)) newRow -= PLAYER_SPEED;
+  if (keyIsDown(83) || keyIsDown(DOWN_ARROW)) newRow += PLAYER_SPEED;
+  if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) newCol -= PLAYER_SPEED;
+  if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) newCol += PLAYER_SPEED;
 
   if (canStandAt(newRow, playerCol)) playerRow = newRow;
   if (canStandAt(playerRow, newCol)) playerCol = newCol;
@@ -206,14 +206,14 @@ function drawEnemyMovement() {
     let nextRow = enemy.row + (rowDifference / distance) * speed;
     let nextCol = enemy.col + (colDifference / distance) * speed;
 
-    if (isWalkable(currentRoom.tiles, Math.floor(nextRow), Math.floor(nextCol))) {
+    if (canStandAt(nextRow, nextCol)) {
       enemy.row = nextRow;
       enemy.col = nextCol;
     } else {
-      if (isWalkable(currentRoom.tiles, Math.floor(nextRow), Math.floor(enemy.col))) {
+      if (canStandAt(nextRow, enemy.col)) {
         enemy.row = nextRow;
       }
-      if (isWalkable(currentRoom.tiles, Math.floor(enemy.row), Math.floor(nextCol))) {
+      if (canStandAt(enemy.row, nextCol)) {
         enemy.col = nextCol;
       }
     }
