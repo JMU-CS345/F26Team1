@@ -1,16 +1,18 @@
 //Loads and draws enemies on the canvas.
 
-let ENEMY_SCALE = 0.8;
+let ENEMY_SCALE = 1;
 let enemyImages = {};
 
 function loadEnemyImages() {
   enemyImages.skeleton = loadImage("assets/skeleton.png");
+  enemyImages.slime = loadImage("assets/slime.png");
+  enemyImages.zombie = loadImage("assets/zombie.png");
 }
 
 function drawRoomEnemies(room) {
-  for (let i = 0; i < room.skeletons.length; i++) {
-    let skeleton = room.skeletons[i];
-    drawEnemy(tileToPixelX(skeleton.col), tileToPixelY(skeleton.row), skeleton.type);
+  for (let i = 0; i < room.enemies.length; i++) {
+    let enemy = room.enemies[i];
+    drawEnemy(tileToPixelX(enemy.col), tileToPixelY(enemy.row), enemy.type);
   }
 }
 

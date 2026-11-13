@@ -75,8 +75,8 @@ function startDungeon() {
   currentRoom = dungeon.rooms[dungeon.startRow][dungeon.startCol];
   playerRow = MIDDLE_ROW + 0.5;
   playerCol = MIDDLE_COL + 0.5;
-  if (!currentRoom.skeletons) {
-    currentRoom.skeletons = spawnSkeletons(currentRoom, playerRow, playerCol);
+  if (!currentRoom.enemies) {
+    currentRoom.enemies = spawnEnemies(currentRoom, playerRow, playerCol);
   }
 }
 
@@ -154,8 +154,8 @@ function goToRoom(directionName) {
     playerCol = 1 + 0.5;
   }
 
-  if (!currentRoom.skeletons) {
-    currentRoom.skeletons = spawnSkeletons(currentRoom, playerRow, playerCol);
+  if (!currentRoom.enemies) {
+    currentRoom.enemies = spawnEnemies(currentRoom, playerRow, playerCol);
   }
 }
 
@@ -190,10 +190,10 @@ function drawEnemyMovement() {
   let speed = 0.015;
   let randomness = 0.2;
 
-  for (let i = 0; i < currentRoom.skeletons.length; i++) {
-    let skeleton = currentRoom.skeletons[i];
-    let rowDifference = playerRow - skeleton.row;
-    let colDifference = playerCol - skeleton.col;
+  for (let i = 0; i < currentRoom.enemies.length; i++) {
+    let enemy = currentRoom.enemies[i];
+    let rowDifference = playerRow - enemy.row;
+    let colDifference = playerCol - enemy.col;
 
     rowDifference += (Math.random() - 0.5) * randomness;
     colDifference += (Math.random() - 0.5) * randomness;
@@ -203,18 +203,18 @@ function drawEnemyMovement() {
       continue;
     }
 
-    let nextRow = skeleton.row + (rowDifference / distance) * speed;
-    let nextCol = skeleton.col + (colDifference / distance) * speed;
+    let nextRow = enemy.row + (rowDifference / distance) * speed;
+    let nextCol = enemy.col + (colDifference / distance) * speed;
 
     if (isWalkable(currentRoom.tiles, Math.floor(nextRow), Math.floor(nextCol))) {
-      skeleton.row = nextRow;
-      skeleton.col = nextCol;
+      enemy.row = nextRow;
+      enemy.col = nextCol;
     } else {
-      if (isWalkable(currentRoom.tiles, Math.floor(nextRow), Math.floor(skeleton.col))) {
-        skeleton.row = nextRow;
+      if (isWalkable(currentRoom.tiles, Math.floor(nextRow), Math.floor(enemy.col))) {
+        enemy.row = nextRow;
       }
-      if (isWalkable(currentRoom.tiles, Math.floor(skeleton.row), Math.floor(nextCol))) {
-        skeleton.col = nextCol;
+      if (isWalkable(currentRoom.tiles, Math.floor(enemy.row), Math.floor(nextCol))) {
+        enemy.col = nextCol;
       }
     }
   }
