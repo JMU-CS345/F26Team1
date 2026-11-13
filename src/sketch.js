@@ -5,8 +5,6 @@ let titlePhase = 0;
 let titleTimer = 0;
 let x = 0;
 let y = 0;
-let skeletonx = 100;
-let skeletony = 100;
 
 //Dungeon stuff. The player position is in tiles, not pixels,
 //so it still works when the window changes size.
@@ -28,6 +26,7 @@ let jellyBackground;
 function preload() {
   loadMageSelectImages();
   loadMageImages();
+  loadEnemyImages();
 
   titleImage = loadImage("assets/title-image.png");
   backgroundImage = loadImage("assets/background-image.png");
@@ -62,7 +61,9 @@ function draw() {
   else if (screen === "game") {
     movePlayer();
     checkDoors();
+    drawEnemyMovement();
     drawRoom(currentRoom, dungeon.theme);
+    drawRoomEnemies(currentRoom);
     drawPlayer(tileToPixelX(playerCol), tileToPixelY(playerRow), playerMage);
     drawDungeonLabel(dungeonNumber, dungeon.theme);
   }
@@ -74,6 +75,9 @@ function startDungeon() {
   currentRoom = dungeon.rooms[dungeon.startRow][dungeon.startCol];
   playerRow = MIDDLE_ROW + 0.5;
   playerCol = MIDDLE_COL + 0.5;
+  if (!currentRoom.skeletons) {
+    currentRoom.skeletons = spawnSkeletons(currentRoom, playerRow, playerCol);
+  }
 }
 
     drawPlayer((width / 2) + x, (height / 2) + y, playerMage);
@@ -149,6 +153,10 @@ function goToRoom(directionName) {
     playerRow = MIDDLE_ROW + 0.5;
     playerCol = 1 + 0.5;
   }
+
+  if (!currentRoom.skeletons) {
+    currentRoom.skeletons = spawnSkeletons(currentRoom, playerRow, playerCol);
+  }
 }
 
 function mouseClicked() {
@@ -179,25 +187,35 @@ function windowResized() {
 }
 
 function drawEnemyMovement() {
-  let speed = 2;
-  let randomness = 1.5;
+  let speed = 0.015;
+  let randomness = 0.2;
 
-  // Calculate direction toward player
-  let dx = x - skeletonx;
-  let dy = y - skeletony;
+  for (let i = 0; i < currentRoom.skeletons.length; i++) {
+    let skeleton = currentRoom.skeletons[i];
+    let rowDifference = playerRow - skeleton.row;
+    let colDifference = playerCol - skeleton.col;
 
-  // Add some random movement
-  dx += (Math.random() - 0.5) * randomness;
-  dy += (Math.random() - 0.5) * randomness;
+    rowDifference += (Math.random() - 0.5) * randomness;
+    colDifference += (Math.random() - 0.5) * randomness;
 
-  // Normalize direction so diagonal movement isn't faster
-  let distance = Math.sqrt(dx * dx + dy * dy);
+    let distance = Math.sqrt(rowDifference * rowDifference + colDifference * colDifference);
+    if (distance === 0) {
+      continue;
+    }
 
-  if (distance > 0) {
-      skeletonx += (dx / distance) * speed;
-      skeletony += (dy / distance) * speed;
+    let nextRow = skeleton.row + (rowDifference / distance) * speed;
+    let nextCol = skeleton.col + (colDifference / distance) * speed;
+
+    if (isWalkable(currentRoom.tiles, Math.floor(nextRow), Math.floor(nextCol))) {
+      skeleton.row = nextRow;
+      skeleton.col = nextCol;
+    } else {
+      if (isWalkable(currentRoom.tiles, Math.floor(nextRow), Math.floor(skeleton.col))) {
+        skeleton.row = nextRow;
+      }
+      if (isWalkable(currentRoom.tiles, Math.floor(skeleton.row), Math.floor(nextCol))) {
+        skeleton.col = nextCol;
+      }
+    }
   }
-
-
-  drawEnemy(skeletonx, skeletony, "skeleton");
 }
