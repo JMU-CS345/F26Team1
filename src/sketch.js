@@ -5,6 +5,8 @@ let titlePhase = 0;
 let titleTimer = 0;
 let x = 0;
 let y = 0;
+let skeletonx = 100;
+let skeletony = 100;
 
 // Title screen images
 let titleImage;
@@ -56,6 +58,7 @@ function draw() {
     if (x < width / 2 && keyIsDown(68)) x += speed;
 
     drawPlayer((width / 2) + x, (height / 2) + y, playerMage);
+    // drawEnemyMovement();
   }
 }
 
@@ -84,7 +87,26 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
-function drawFreeMovement() {
-  updateMovement(x, y);
-  image(wizard, x, y, 100, 200);
+function drawEnemyMovement() {
+  let speed = 2;
+  let randomness = 1.5;
+
+  // Calculate direction toward player
+  let dx = x - skeletonx;
+  let dy = y - skeletony;
+
+  // Add some random movement
+  dx += (Math.random() - 0.5) * randomness;
+  dy += (Math.random() - 0.5) * randomness;
+
+  // Normalize direction so diagonal movement isn't faster
+  let distance = Math.sqrt(dx * dx + dy * dy);
+
+  if (distance > 0) {
+      skeletonx += (dx / distance) * speed;
+      skeletony += (dy / distance) * speed;
+  }
+
+
+  drawEnemy(skeletonx, skeletony, "skeleton");
 }
