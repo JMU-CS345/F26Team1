@@ -4,23 +4,26 @@ var mindButton;
 
 //Loads mage images for this script.
 function loadMageSelectImages() {
-  fire = loadImage("assets/mage-fire.png")
-  ice = loadImage("assets/mage-ice.png")
-  mind = loadImage("assets/mage-mind.png")
+  fire = loadImage("assets/mage-fire-sheet.png")
+  ice = loadImage("assets/mage-ice-sheet.png")
+  mind = loadImage("assets/mage-mind-sheet.png")
 }
 
 // Creates the UI for the mage select screen. 
 function createMageSelect() {
-  buttonHeight = fire.height * (height / 85);
-  buttonWidth = fire.width * (height / 85);
-  image(fire, width / 2 - (buttonWidth * 1.5), height / 4, buttonWidth, buttonHeight);
-  image(ice, width / 2 - (buttonWidth * 0.5), height / 4, buttonWidth, buttonHeight);
-  image(mind, width / 2 - (buttonWidth * -0.5), height / 4, buttonWidth, buttonHeight);
+  imgWidth = fire.width / 4;
+  imgHeight = fire.height / 3;
+  buttonHeight = fire.height / 3 * (height / 85);
+  buttonWidth = fire.width / 4 * (height / 85);
+  image(fire, width / 2 - (buttonWidth * 1.5), height / 4, buttonWidth, buttonHeight, 0, 0, imgWidth, imgHeight);
+  image(ice, width / 2 - (buttonWidth * 0.5), height / 4, buttonWidth, buttonHeight, 0, 0, imgWidth, imgHeight);
+  image(mind, width / 2 - (buttonWidth * -0.5), height / 4, buttonWidth, buttonHeight, 0, 0, imgWidth, imgHeight);
 }
 
+//Creates the colored background behind the mages images on the select screen.
 function createMageSelectBackGround() {
-    let buttonHeight = fire.height * (height / 85);
-    let buttonWidth = fire.width * (height / 85);
+    let buttonHeight = fire.height / 3 * (height / 85);
+    let buttonWidth = fire.width / 4 * (height / 85);
     fill(color("#4f361b"));
     rect(width / 2, height / 2, buttonWidth * 3 + 50, buttonHeight + 50);
     if (mouseOverFireSelectButton()) {
@@ -44,7 +47,7 @@ function createMageSelectBackGround() {
 }
 
 function mouseOverFireSelectButton() {
-    let buttonWidth = fire.width * (height / 85);
+    let buttonWidth = fire.width / 4 * (height / 85);
     return mouseX > width / 2 - (buttonWidth * 1.5) &&
          mouseX < width / 2 - (buttonWidth * 0.5) &&
          mouseY > height / 4 &&
@@ -52,7 +55,7 @@ function mouseOverFireSelectButton() {
 }
 
 function mouseOverIceSelectButton() {
-    let buttonWidth = fire.width * (height / 85);
+    let buttonWidth = fire.width / 4 * (height / 85);
     return mouseX > width / 2 - (buttonWidth * 0.5) &&
          mouseX < width / 2 - (buttonWidth * -0.5) &&
          mouseY > height / 4 &&
@@ -60,7 +63,7 @@ function mouseOverIceSelectButton() {
 }
 
 function mouseOverMindSelectButton() {
-    let buttonWidth = fire.width * (height / 85);
+    let buttonWidth = fire.width / 4 * (height / 85);
     return mouseX > width / 2 - (buttonWidth * -0.5) &&
          mouseX < width / 2 - (buttonWidth * -1.5) &&
          mouseY > height / 4 &&
