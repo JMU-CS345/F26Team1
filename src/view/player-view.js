@@ -71,7 +71,7 @@ function checkPlayerMovingInDirection() {
   else if ((keyIsDown(65) || keyIsDown(LEFT_ARROW)) && (!keyIsDown(68) && !keyIsDown(RIGHT_ARROW))) {
     direction = "left"
   } // D
-  else if ((keyIsDown(68) || keyIsDown(RIGHT_ARROW)) && (!keyIsDown(65) && !keyIsDown(UP_ARROW))) {
+  else if ((keyIsDown(68) || keyIsDown(RIGHT_ARROW)) && (!keyIsDown(65) && !keyIsDown(LEFT_ARROW))) {
     direction = "right"
   }
   else {
