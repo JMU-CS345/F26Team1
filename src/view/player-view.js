@@ -62,16 +62,16 @@ function drawPlayer(x, y, mageType) {
 // and sets direction and returns true if so. Otherwise returns false.
 function checkPlayerMovingInDirection() {
   // W
-  if (keyIsDown(87) && !keyIsDown(83)) {
+  if ((keyIsDown(87) || keyIsDown(UP_ARROW)) && (!keyIsDown(83) && !keyIsDown(DOWN_ARROW))) {
     direction = "up";
   } //S
-  else if (keyIsDown(83) && !keyIsDown(87)){
+  else if ((keyIsDown(83) || keyIsDown(DOWN_ARROW)) && (!keyIsDown(87) && !keyIsDown(UP_ARROW))){
     direction = "down"
   } //A
-  else if (keyIsDown(65) && !keyIsDown(68)) {
+  else if ((keyIsDown(65) || keyIsDown(LEFT_ARROW)) && (!keyIsDown(68) && !keyIsDown(RIGHT_ARROW))) {
     direction = "left"
   } // D
-  else if (keyIsDown(68) && !keyIsDown(65)) {
+  else if ((keyIsDown(68) || keyIsDown(RIGHT_ARROW)) && (!keyIsDown(65) && !keyIsDown(UP_ARROW))) {
     direction = "right"
   }
   else {
