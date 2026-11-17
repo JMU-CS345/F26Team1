@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mage Quest - Town 1 Demo (Fixed)</title>
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #111;
+            font-family: Arial, sans-serif;
+        }
+        #town-canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            image-rendering: pixelated;
+        }
+        #hint, #status, #error {
+            position: fixed;
+            left: 12px;
+            color: white;
+            background: rgba(0, 0, 0, 0.78);
+            padding: 9px 12px;
+            border-radius: 5px;
+            z-index: 2;
+            font-size: 14px;
+            max-width: calc(100vw - 40px);
+        }
+        #hint { top: 12px; }
+        #status { top: 53px; }
+        #error {
+            display: none;
+            top: 96px;
+            background: rgba(100, 20, 20, 0.92);
+        }
+        #dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 24px;
+            background: #f5e8ce;
+            border: 3px solid #3d2b25;
+            border-radius: 8px;
+            z-index: 3;
+            max-width: 75vw;
+            text-align: center;
+        }
+        #dialog button {
+            margin-top: 15px;
+            padding: 8px 18px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="town1-demo.js" defer></script>
+</head>
+<body>
+    <canvas id="town-canvas"></canvas>
+    <div id="hint">Loading Town 1...</div>
+    <div id="status">Checking town files...</div>
+    <div id="error"></div>
+    <div id="dialog">
+        <div id="dialog-text"></div>
+        <button id="close-dialog">Close (Esc)</button>
+    </div>
+</body>
+</html>
