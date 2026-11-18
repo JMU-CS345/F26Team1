@@ -1,12 +1,28 @@
 //Draws one dungeon room so it fills the screen, like a Zelda room.
 //All the p5 drawing for dungeons lives here.
 
+//Pictures for the walls and decor, loaded by loadDecorImages()
+let decorImages = {};
+
 //Colors for each dungeon theme
 let THEME_COLORS = {
   stone: { wall: [70, 60, 80], floor: [150, 128, 96], floorAlt: [140, 118, 88], door: [40, 30, 40] },
   lava: { wall: [60, 20, 20], floor: [120, 60, 40], floorAlt: [110, 52, 34], door: [30, 10, 10] },
   ice: { wall: [60, 90, 130], floor: [170, 200, 225], floorAlt: [158, 190, 218], door: [30, 50, 80] },
 };
+
+//Loads the wall picture and every decor piece for every theme.
+//Call this from preload() in sketch.js.
+function loadDecorImages() {
+  for (let theme in THEME_JOBS) {
+    decorImages[theme] = {};
+    decorImages[theme].wall = loadImage("assets/decor/" + theme + "-wall.png");
+    let jobs = THEME_JOBS[theme];
+    for (let i = 0; i < jobs.length; i++) {
+      decorImages[theme][jobs[i]] = loadImage("assets/decor/" + theme + "-" + jobs[i] + ".png");
+    }
+  }
+}
 
 //How big one tile is on screen. The room always fits the window.
 function getTileSize() {
@@ -41,9 +57,11 @@ function drawRoom(room, theme) {
   let size = getTileSize();
   let offsetX = getRoomOffsetX();
   let offsetY = getRoomOffsetY();
+  let pictures = decorImages[theme];
 
   push();
   rectMode(CORNER);
+  imageMode(CORNER);
   noStroke();
 
   for (let row = 0; row < ROOM_ROWS; row++) {
@@ -53,10 +71,16 @@ function drawRoom(room, theme) {
       let y = offsetY + row * size;
 
       if (tile === WALL) {
+        //Brick picture if we have one, flat color if not
+        if (pictures && pictures.wall) {
+          image(pictures.wall, x, y, size, size);
+          continue;
+        }
         fill(colors.wall);
       } else if (tile === DOOR) {
         fill(colors.door);
       } else if ((row + col) % 2 === 0) {
+        //FLOOR, SOLID and EXIT all get a floor square first
         fill(colors.floor);
       } else {
         fill(colors.floorAlt);
@@ -75,7 +99,32 @@ function drawRoom(room, theme) {
       }
     }
   }
+
+  drawRoomDecor(room, theme);
   pop();
+}
+
+//Draws every decor piece in the room on top of the tiles.
+//SOLID tiles are drawn as floor first so the piece sits on floor, not on a wall color.
+function drawRoomDecor(room, theme) {
+  let pictures = decorImages[theme];
+  if (!pictures || !room.decor) {
+    return;
+  }
+  let size = getTileSize();
+  let offsetX = getRoomOffsetX();
+  let offsetY = getRoomOffsetY();
+
+  for (let i = 0; i < room.decor.length; i++) {
+    let piece = room.decor[i];
+    let img = pictures[piece.job];
+    if (!img) {
+      continue;
+    }
+    let wide = DECOR_JOBS[piece.job].wide;
+    let tall = DECOR_JOBS[piece.job].tall;
+    image(img, offsetX + piece.col * size, offsetY + piece.row * size, size * wide, size * tall);
+  }
 }
 
 //Small label in the corner so you can tell which dungeon you are in

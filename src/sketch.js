@@ -33,6 +33,7 @@ function preload() {
   loadMageSelectImages();
   loadMageImages();
   loadEnemyImages();
+  loadDecorImages();
   preloadTown();
 
   titleImage = loadImage("assets/title-image.png");
