@@ -1,13 +1,10 @@
 // Displays the Tiled town inside the main Mage Quest game.
-// Town 2 temporarily reuses the Town 1 artwork and objects.
+// Town 1 and Town 2 use separate Tiled maps and sprite folders.
 
-const TOWN_ZOOM = 2;
+const TOWN_ZOOM = 1.6; // Slightly zoomed out in both towns
 const TOWN_SPEED = 162; // Town pixels per second
-const TOWN_INTERACT_DISTANCE = 40;
-const TOWN_MAGE_SCALE = 1;
 
-// To add Town 2 later, change only its three file paths here.
-// Both entries deliberately point to Town 1 for the current sprint.
+// The two towns use different artwork but the same movement and portal code.
 const TOWN_FILES = {
   1: {
     map: "assets/towns/town1.json",
@@ -15,11 +12,79 @@ const TOWN_FILES = {
     objects: "assets/towns/objects/"
   },
   2: {
-    map: "assets/towns/town1.json",
-    ground: "assets/towns/Town1Ground.png",
-    objects: "assets/towns/objects/"
+    map: "assets/towns/town2.json",
+    ground: "assets/towns/Town2Ground.png",
+    objects: "assets/towns/town2_objects/"
   }
 };
+
+// Tiled may leave the Name field blank when you place a new sprite.
+// Town 2 can also find the correct PNG from its tileset tile ID.
+const TOWN2_TILE_NAMES = [
+  "town2_blacksmith_shop",
+  "town2_fern_01",
+  "town2_fern_02",
+  "town2_fern_03",
+  "town2_moss_rock_01",
+  "town2_moss_rock_02",
+  "town2_mushrooms_01",
+  "town2_mushrooms_02",
+  "town2_mushrooms_03",
+  "town2_portal",
+  "town2_prop_01",
+  "town2_prop_02",
+  "town2_prop_03",
+  "town2_prop_04",
+  "town2_prop_05",
+  "town2_prop_06",
+  "town2_prop_07",
+  "town2_prop_08",
+  "town2_prop_09",
+  "town2_prop_10",
+  "town2_prop_11",
+  "town2_prop_12",
+  "town2_prop_13",
+  "town2_prop_14",
+  "town2_prop_15",
+  "town2_prop_16",
+  "town2_prop_17",
+  "town2_prop_18",
+  "town2_prop_19",
+  "town2_runestone",
+  "town2_sell_shop",
+  "town2_spell_shop",
+  "town2_stump",
+  "town2_tree_01",
+  "town2_tree_02",
+  "town2_tree_03",
+  "town2_tree_04",
+  "town2_tree_05",
+  "town2_tree_06",
+  "town2_tree_07",
+  "town2_tree_08",
+  "town2_tree_09",
+  "town2_tree_10",
+  "town2_tree_11",
+  "town2_tree_12",
+  "town2_upgrade_shop"
+];
+
+function getTownSpritePath(object, number) {
+  let name = object.name;
+
+  if (number === 2 && object.gid) {
+    // Ignore Tiled's flip flags when looking up the tile number.
+    let tileId = (object.gid & 0x1FFFFFFF) - 385;
+    if (tileId >= 0 && tileId < TOWN2_TILE_NAMES.length) {
+      name = TOWN2_TILE_NAMES[tileId];
+    }
+  }
+
+  if (!name) {
+    return null;
+  }
+  return TOWN_FILES[number].objects + name + ".png";
+}
 
 let townMaps = {};
 let townGroundImages = {};
@@ -28,14 +93,13 @@ let townGroundImage = null;
 let townSprites = {};
 let townLoadingSprites = {};
 let townPlayer = { x: 0, y: 0 };
-let showTownWalkable = false;
 
 // Called by the game's preload().
 function preloadTown() {
   for (let number of [1, 2]) {
     let files = TOWN_FILES[number];
 
-    // Town 1 and temporary Town 2 share the same loaded files.
+    // Share a file only when both town entries point to the same path.
     if (!townMaps[files.map]) {
       townMaps[files.map] = loadJSON(files.map);
     }
@@ -59,12 +123,8 @@ function loadTownSprites() {
     let scenery = getTownObjects(map, TOWN_SCENERY_LAYER);
 
     for (let object of scenery) {
-      if (!object.name) {
-        continue;
-      }
-
-      let path = files.objects + object.name + ".png";
-      if (townLoadingSprites[path]) {
+      let path = getTownSpritePath(object, number);
+      if (!path || townLoadingSprites[path]) {
         continue;
       }
       townLoadingSprites[path] = true;
@@ -79,6 +139,8 @@ function loadTownSprites() {
 }
 
 function resetTownPlayer() {
+  portalConfirmationOpen = false;
+  portalNeedsExit = false;
   let spawns = getTownObjects(townMap, "Spawn");
   if (spawns.length > 0) {
     townPlayer.x = spawns[0].x;
@@ -133,8 +195,8 @@ function drawTownScenery(object) {
     return;
   }
 
-  let path = TOWN_FILES[currentTown].objects + object.name + ".png";
-  let img = townSprites[path];
+  let path = getTownSpritePath(object, currentTown);
+  let img = path ? townSprites[path] : null;
   if (!img) {
     return;
   }
@@ -160,41 +222,13 @@ function drawTownMage() {
     return;
   }
 
-  let playerWidth = img.width * TOWN_MAGE_SCALE;
-  let playerHeight = img.height * TOWN_MAGE_SCALE;
+  // The mage pictures are now 4-column, 3-row animation sheets.
+  // drawPlayer() chooses one frame and animates it using WASD / arrows.
+  // drawPlayer() centers the sprite, but townPlayer marks the feet.
+  let frameHeight = img.height / 3;
+  let playerHeight = frameHeight * MAGE_SCALE;
 
-  push();
-  imageMode(CORNER);
-  image(img, townPlayer.x - playerWidth / 2,
-    townPlayer.y - playerHeight, playerWidth, playerHeight);
-  pop();
-}
-
-function drawTownWalkableAreas() {
-  let areas = getTownObjects(townMap, "Walkable");
-
-  push();
-  fill(0, 200, 255, 40);
-  stroke(0, 220, 255);
-  strokeWeight(2);
-
-  for (let area of areas) {
-    if (area.polygon) {
-      beginShape();
-      for (let point of area.polygon) {
-        vertex(area.x + point.x, area.y + point.y);
-      }
-      endShape(CLOSE);
-    } else if (!area.polyline) {
-      rect(area.x, area.y, area.width, area.height);
-    }
-  }
-  pop();
-}
-
-function isTownPortalNearby() {
-  return isNearTownObject(getTownPortal(townMap),
-    townPlayer.x, townPlayer.y, TOWN_INTERACT_DISTANCE);
+  drawPlayer(townPlayer.x, townPlayer.y - playerHeight / 2, playerMage);
 }
 
 function drawTown() {
@@ -202,7 +236,10 @@ function drawTown() {
     return;
   }
 
-  moveTownPlayer();
+  if (!portalConfirmationOpen) {
+    moveTownPlayer();
+    checkTownPortalEntry();
+  }
 
   let mapWidth = townGroundImage.width;
   let mapHeight = townGroundImage.height;
@@ -240,39 +277,9 @@ function drawTown() {
     }
   }
 
-  if (showTownWalkable) {
-    drawTownWalkableAreas();
-  }
   pop();
 
-  drawTownHUD();
-}
-
-function drawTownHUD() {
-  let label = "Town " + currentTown;
-  if (currentTown === 2) {
-    label += " (using Town 1 map for now)";
+  if (portalConfirmationOpen) {
+    drawPortalConfirmation();
   }
-
-  let message = "WASD / arrows: move  |  E: portal  |  T: paths";
-  if (finishedThreeDungeons) {
-    message = "All 3 dungeons complete! Ending screen coming later.";
-  } else if (isTownPortalNearby()) {
-    let next = getNextDungeonFromTown(currentTown, false);
-    message = "Press E to enter Dungeon " + next;
-  }
-
-  push();
-  rectMode(CORNER);
-  noStroke();
-  fill(0, 0, 0, 180);
-  rect(8, 8, Math.min(width - 16, 560), 63, 6);
-  fill(255);
-  textStyle(NORMAL);
-  textAlign(LEFT, TOP);
-  textSize(18);
-  text(label, 18, 14);
-  textSize(14);
-  text(message, 18, 43);
-  pop();
 }

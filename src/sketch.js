@@ -19,6 +19,10 @@ let PLAYER_SPEED = 0.09;
 let currentTown = 1;
 let finishedThreeDungeons = false;
 
+// The town portal opens a confirmation before changing dungeons.
+let portalConfirmationOpen = false;
+let portalNeedsExit = false;
+
 // Title screen images
 let titleImage;
 let backgroundImage;
@@ -71,6 +75,12 @@ function draw() {
     }
   } else if (screen === "town") {
     drawTown();
+  } else if (screen === "victory") {
+    drawVictoryScreen();
+  } else if (screen === "credits") {
+    drawCreditsScreen();
+  } else if (screen === "playAgain") {
+    drawPlayAgainScreen();
   }
 }
 
@@ -87,10 +97,12 @@ function startDungeon() {
   }
 }
 
-// Called when the player steps on the gold-framed EXIT tile.
+// The gold-framed EXIT leads to a town, except after Dungeon 3.
 function finishDungeon() {
   if (dungeonNumber >= 3) {
     finishedThreeDungeons = true;
+    beginVictory();
+    return;
   }
 
   currentTown = getTownAfterDungeon(dungeonNumber);
@@ -99,24 +111,78 @@ function finishDungeon() {
   screen = "town";
 }
 
-// E near the town portal starts the next dungeon.
+// Walking into the town portal asks for confirmation first.
+// skipDistanceCheck is only used by the ?testFlow=1 shortcut.
 function useTownPortal(skipDistanceCheck) {
-  if (screen !== "town") {
-    return;
-  }
-
-  if (!skipDistanceCheck && !isTownPortalNearby()) {
+  if (screen !== "town" || portalConfirmationOpen) {
     return;
   }
 
   let nextDungeon = getNextDungeonFromTown(currentTown,
     finishedThreeDungeons);
+  if (nextDungeon === null) {
+    return;
+  }
+
+  let portal = getTownPortal(townMap);
+  if (!skipDistanceCheck &&
+      (!portal || !isInsideTownObject(portal,
+      townPlayer.x, townPlayer.y))) {
+    return;
+  }
+
+  portalConfirmationOpen = true;
+}
+
+// Check the portal after the player moves, not when E is pressed.
+function checkTownPortalEntry() {
+  if (screen !== "town" || portalConfirmationOpen) {
+    return;
+  }
+
+  let portal = getTownPortal(townMap);
+  let inside = portal && isInsideTownObject(portal,
+    townPlayer.x, townPlayer.y);
+
+  if (!inside) {
+    // If the player chose No, they must leave before trying again.
+    portalNeedsExit = false;
+  } else if (!portalNeedsExit) {
+    useTownPortal(false);
+  }
+}
+
+function confirmTownPortal() {
+  if (!portalConfirmationOpen || screen !== "town") {
+    return;
+  }
+
+  let nextDungeon = getNextDungeonFromTown(currentTown,
+    finishedThreeDungeons);
+  portalConfirmationOpen = false;
+  portalNeedsExit = false;
 
   if (nextDungeon === null) {
-    return; // After Dungeon 3, stay in Town 2 for now.
+    return;
   }
 
   dungeonNumber = nextDungeon;
+  startDungeon();
+  screen = "game";
+}
+
+function cancelTownPortal() {
+  portalConfirmationOpen = false;
+  portalNeedsExit = true;
+}
+
+// Both Yes buttons after the credits restart in Dungeon 1.
+function restartMageQuest() {
+  dungeonNumber = 1;
+  currentTown = 1;
+  finishedThreeDungeons = false;
+  portalConfirmationOpen = false;
+  portalNeedsExit = false;
   startDungeon();
   screen = "game";
 }
@@ -196,6 +262,23 @@ function goToRoom(directionName) {
 }
 
 function mouseClicked() {
+  if (screen === "town" && portalConfirmationOpen) {
+    let choice = getPortalDialogChoice(mouseX, mouseY);
+    if (choice === "yes") {
+      confirmTownPortal();
+    } else if (choice === "no") {
+      cancelTownPortal();
+    }
+    return;
+  }
+
+  if (screen === "playAgain") {
+    if (clickedPlayAgainButton(mouseX, mouseY)) {
+      restartMageQuest();
+    }
+    return;
+  }
+
   if (screen === "start" && mouseOverButton()) {
     screen = "mageSelect";
   } else if (screen === "mageSelect") {
@@ -214,23 +297,25 @@ function mageSelectButtonPressed(mage) {
   dungeonNumber = 1;
   currentTown = 1;
   finishedThreeDungeons = false;
+  portalConfirmationOpen = false;
+  portalNeedsExit = false;
   startDungeon();
   screen = "game"; // The player ALWAYS starts in Dungeon 1.
 }
 
 function keyPressed() {
-  if (screen === "town") {
-    if (key === "e" || key === "E") {
-      useTownPortal(false);
+  // The modal pauses the town. Enter accepts, Escape cancels.
+  if (screen === "town" && portalConfirmationOpen) {
+    if (keyCode === ENTER) {
+      confirmTownPortal();
+    } else if (keyCode === ESCAPE) {
+      cancelTownPortal();
     }
-    if (key === "t" || key === "T") {
-      showTownWalkable = !showTownWalkable;
-    }
+    return false;
   }
 
-  // Optional quick testing: add ?testFlow=1 to the game's URL.
-  // N simulates reaching a dungeon exit or using the town portal.
-  // Without that URL parameter, N does nothing.
+  // No E interaction and no T path overlay in normal gameplay.
+  // Optional quick test: ?testFlow=1 and N advances to the next area.
   let testMode = new URLSearchParams(
     window.location.search).has("testFlow");
 
