@@ -48,37 +48,18 @@ function getDirection(name) {
   return null;
 }
 
-//Makes one room with walls, floor and a few random obstacles.
+//Makes one room with walls and floor. Decor gets added after the doors are cut.
 function makeRoom(gridRow, gridCol) {
   let room = {
     row: gridRow,
     col: gridCol,
     tiles: makeEmptyRoom(),
     doors: { up: false, down: false, left: false, right: false },
+    decor: [],
     isStart: false,
     isExit: false,
   };
-  addObstacles(room.tiles);
   return room;
-}
-
-//Drops a few wall blocks inside the room, never in the lane between the doors.
-//If a block would cut off part of the room it is taken back out.
-function addObstacles(tiles) {
-  let howMany = randomInt(0, 3);
-  for (let i = 0; i < howMany; i++) {
-    let row = randomInt(2, ROOM_ROWS - 3);
-    let col = randomInt(2, ROOM_COLS - 3);
-    if (isInDoorLane(row, col)) {
-      continue;
-    }
-    tiles[row][col] = WALL;
-    //Make sure every floor tile can still be reached from the middle
-    let reachable = countReachableTiles(tiles, MIDDLE_ROW, MIDDLE_COL);
-    if (reachable !== countWalkableTiles(tiles)) {
-      tiles[row][col] = FLOOR;
-    }
-  }
 }
 
 //Cuts a door into one edge of the room
@@ -187,9 +168,19 @@ function generateDungeon(seed) {
   rooms[exitRow][exitCol].isExit = true;
   rooms[exitRow][exitCol].tiles[MIDDLE_ROW][MIDDLE_COL] = EXIT;
 
+  //Pick the look of the dungeon, then decorate every room to match
+  let theme = DUNGEON_THEMES[randomInt(0, DUNGEON_THEMES.length - 1)];
+  for (let r = 0; r < DUNGEON_GRID_ROWS; r++) {
+    for (let c = 0; c < DUNGEON_GRID_COLS; c++) {
+      if (rooms[r][c] !== null) {
+        addRoomDecor(rooms[r][c], theme);
+      }
+    }
+  }
+
   return {
     seed: seed,
-    theme: DUNGEON_THEMES[randomInt(0, DUNGEON_THEMES.length - 1)],
+    theme: theme,
     rooms: rooms,
     roomCount: madeRooms,
     startRow: startRow,

@@ -11,6 +11,7 @@ function spawnEnemies(room, playerRow, playerCol) {
   for (let row = 1; row < ROOM_ROWS - 1; row++) {
     for (let col = 1; col < ROOM_COLS - 1; col++) {
       if (room.tiles[row][col] !== WALL &&
+          room.tiles[row][col] !== SOLID &&
           room.tiles[row][col] !== EXIT &&
           (row !== playerTileRow || col !== playerTileCol)) {
         candidates.push({ row: row, col: col });

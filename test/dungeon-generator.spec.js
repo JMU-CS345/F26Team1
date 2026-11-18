@@ -84,14 +84,15 @@ describe("generateDungeon", function () {
     }
   });
 
-  it("never cuts off part of a room with obstacles", function () {
+  it("never cuts off part of a room with decor", function () {
     for (let seed = 1; seed <= 20; seed++) {
       let d = generateDungeon(seed);
       for (let r = 0; r < DUNGEON_GRID_ROWS; r++) {
         for (let c = 0; c < DUNGEON_GRID_COLS; c++) {
           let room = d.rooms[r][c];
           if (room === null) continue;
-          let reachable = countReachableTiles(room.tiles, MIDDLE_ROW, MIDDLE_COL);
+          let start = findWalkableTile(room.tiles);
+          let reachable = countReachableTiles(room.tiles, start.row, start.col);
           expect(reachable).toBe(countWalkableTiles(room.tiles));
         }
       }
