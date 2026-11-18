@@ -2,9 +2,9 @@
 //No p5 in this file so it can be tested with Jasmine.
 
 let MAGE_TYPES = {
-  fire: "mage-fire.png",
-  ice: "mage-ice.png",
-  mind: "mage-mind.png",
+  fire: "mage-fire-sheet.png",
+  ice: "mage-ice-sheet.png",
+  mind: "mage-mind-sheet.png",
 };
 
 let DEFAULT_MAGE_TYPE = "fire";

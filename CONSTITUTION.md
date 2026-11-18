@@ -19,8 +19,8 @@ Jelly Biscuit
 | Name | GitHub username | Usual availability |
 |------|-----------------|--------------------|
 | Zaina Olibah | zolibah-star | Everyday but Friday & Saturday |
-| Aidan Kleen | AidanKleen | | Afternoon everyday
-| Callie DuBois | CallieDuBois | | Everyday but Tuesday |
+| Aidan Kleen | AidanKleen | Afternoon everyday |
+| Callie DuBois | CallieDuBois | Everyday but Tuesday |
 | Devin | dshif21 |Everyday but Friday & Saturday |
 
 ### Scrum Master
@@ -41,7 +41,7 @@ _
 
 Who is responsible for maintaining the project board / backlog in good order? The current sprint's Scrum Master.
 
-Who is responsible for deploying the main branch to production to update GitHub pages? The current sprint's Scrum Master, right after the sprint review.
+Who is responsible for deploying the main branch to production to update GitHub pages? The current sprint's Scrum Master, at the end of each week of the sprint and right after the sprint review.
 
 ### Decision Making
 
@@ -104,9 +104,9 @@ _
 
 ### Backlog and Board
 
-**Where the backlog lives:** GitHub Issues on the F26Team1 repo. Project board link to be added.
+**Where the backlog lives:** GitHub Issues on the F26Team1 repo. Project board: https://github.com/orgs/JMU-CS345/projects/23
 
-**Board columns:** *(e.g., To Do → In Progress → In Review → Done)*
+**Board columns:** Backlog → Ready → In progress → In review → Done
 
 _
 
@@ -151,7 +151,7 @@ Attempt 24 hours, person with the least amount of work. Covering is last resort
 ### Branch Protection on `main`
 
 - [x] No direct pushes to `main`
-- [x] Required approvals before merge: _
+- [x] Required approvals before merge: 1
 - [x] CI must pass before merge
 - [x] Same protection on `production`
 
@@ -186,6 +186,8 @@ _
 **Who merges:** The author, after approval and a green Tests check.
 
 **After merge:** Delete the branch
+
+**Release to production:** The Scrum Master opens a PR from `main` into `production` at the end of each week of the sprint and merges it with a merge commit, not a squash, so `production` keeps the history from `main`.
 
 _
 
@@ -280,7 +282,7 @@ _
 
 ## 7. Deployment
 
-**Where the game is deployed:** GitHub Pages, URL here
+**Where the game is deployed:** GitHub Pages, https://jmu-cs345.github.io/F26Team1/
 
 **What triggers a deploy:** A merge into `production`.
 
